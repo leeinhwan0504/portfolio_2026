@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이력서 (Resume) &amp; 자기소개서</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
+        body { background-color: #f5f5f5; padding: 40px 0; display: flex; flex-direction: column; align-items: center; }
+        
+        /* 1. 컨테이너를 고정 너비에서 유동적 너비로 변경 */
+        .resume-container, .cover-letter-container { 
+            width: 95%;            /* 모바일에서는 화면의 95% 사용 */
+            max-width: 800px;      /* PC에서는 최대 800px까지만 */
+            background-color: #ffffff; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+            margin: 0 auto 20px auto; 
+        }
+
+        /* 2. 모바일 환경(800px 이하) 대응은 스타일시트 맨 아래(기본 스타일들 이후)에 배치되어 있습니다.
+           - CSS는 조건(미디어쿼리) 여부와 무관하게 "나중에 나온 규칙"이 우선 적용되기 때문에,
+             기본 스타일보다 먼저 적으면 뒤에 나오는 .sidebar{width:32%} 같은 규칙에 덮여씌워집니다. */
+
+        /* 공통 컨테이너 설정 (너비는 위쪽 반응형 규칙: 95% / max-width 800px 을 그대로 사용) */
+        .resume-container, .cover-letter-container { 
+            background-color: #ffffff; box-shadow: 0 0 15px rgba(0,0,0,0.1); margin-bottom: 20px; 
+        }
+        .resume-container { display: flex; }
+
+        /* 기존 스타일 유지 */
+        /* .sidebar { width: 32%; background-color: #f9f9f9; padding: 40px 30px; border-right: 1px solid #e0e0e0; } */
+        .sidebar { 
+            width: 32%; 
+            background-color: #f9f9f9; 
+            padding: 40px 15px; /* 기존 30px에서 15px로 줄이면 공간이 30px 더 확보됩니다 */
+            border-right: 1px solid #e0e0e0; 
+        }
+        .profile-img-container { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; border: 4px solid #008FD5; margin: 0 auto 30px auto; }
+        .profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { text-align: center; margin-bottom: 40px; }
+        .profile-name .last-name { font-size: 36px; font-weight: bold; color: #555; line-height: 1.1; }
+        .profile-name .first-name { font-size: 20px; color: #444; letter-spacing: 1px; margin-bottom: 8px; }
+        .sidebar-section { margin-bottom: 35px; }
+        .sidebar-section-title { font-size: 16px; font-weight: bold; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 15px; }
+        .sidebar-section-title span { color: #008FD5; margin-right: 4px; }
+        .info-group { margin-bottom: 15px; font-size: 13px; }
+        .info-label { font-weight: bold; color: #555; margin-bottom: 3px; }
+        .info-value { color: #777; word-break: break-all; }
+        .main-content { width: 68%; padding: 40px 40px; }
+        .main-section { margin-bottom: 40px; }
+        .main-section-title { font-size: 18px; font-weight: bold; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-bottom: 25px; }
+        .main-section-title span { color: #008FD5; margin-right: 4px; }
+        .timeline-item { display: flex; margin-bottom: 25px; position: relative; }
+        .timeline-date { width: 90px; font-size: 13px; color: #444; font-weight: bold; padding-top: 2px; }
+        .timeline-date .position { font-size: 12px; color: #777; font-weight: normal; margin-top: 4px; }
+        .timeline-marker { width: 20px; position: relative; display: flex; justify-content: center; }
+        .timeline-marker::before { content: ''; width: 2px; background-color: #008FD5; position: absolute; top: 0; bottom: -25px; left: 50%; transform: translateX(-50%); }
+        .timeline-item:last-child .timeline-marker::before { bottom: 0; }
+        .timeline-marker::after { content: ''; width: 8px; height: 8px; background-color: #008FD5; border-radius: 50%; position: absolute; top: 6px; }
+        .timeline-content { flex: 1; padding-left: 10px; padding-bottom: 10px; }
+        .timeline-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+        .institution-name { font-size: 15px; font-weight: bold; color: #333; }
+        .score { font-size: 14px; font-weight: bold; color: #333; }
+        .details { font-size: 13px; color: #666; line-height: 1.6; }
+        .cert-group { margin-bottom: 15px; }
+        .cert-category { font-size: 12px; font-weight: bold; color: #333; margin-bottom: 5px; }
+        .cert-row { display: flex; font-size: 12px; color: #555; margin-bottom: 8px; }
+        .cert-date { width: 90px; color: #777; }
+        .info-value a { text-decoration: none; color: #777; transition: color 0.3s ease; }
+        .info-value a:hover { color: #008FD5; }
+
+        /* 자기소개서 영역 스타일 */
+        .cover-letter-container { padding: 40px; }
+        .intro-text { color: #444; line-height: 1.8; font-size: 14px; }
+        .intro-sub-title { color: #008FD5; font-weight: bold; margin: 20px 0 10px 0; font-size: 16px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .intro-text p {
+            line-height: 1.8;     /* 줄 간격 */
+            margin-bottom: 12px;  /* 문단과 문단 사이의 간격 (원하는 만큼 수치 조절) */
+        }
+
+
+
+        /* ===== 모바일 반응형 (화면에서만 적용, 인쇄 제외) =====
+           위쪽 기본 스타일(.sidebar, .main-content 등)보다 뒤에 위치해야
+           우선순위가 제대로 적용됩니다. */
+        @media screen and (max-width: 800px) {
+            .resume-container { 
+                flex-direction: column; /* 사이드바를 위로, 메인을 아래로 */
+            }
+            .sidebar { 
+                width: 100%;           /* 모바일에서는 너비 100% */
+                border-right: none;    /* 구분선 제거 */
+                border-bottom: 1px solid #e0e0e0; 
+            }
+            .main-content { 
+                width: 100%;           /* 모바일에서는 너비 100% */
+                padding: 20px; 
+            }
+        }
+
+        /* 작은 스마트폰 화면(480px 이하) 추가 대응 */
+        @media screen and (max-width: 480px) {
+            .sidebar { padding: 25px 15px; }
+            .cover-letter-container { padding: 20px; }
+            .profile-img-container { width: 110px; height: 110px; }
+            .profile-name .last-name { font-size: 28px; }
+            .timeline-item { flex-wrap: wrap; }
+            .timeline-date { width: 100%; margin-bottom: 4px; }
+            .cert-row { flex-wrap: wrap; }
+        }
+
+        /* ===== 인쇄용 스타일 ===== */
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm 12mm;
+            }
+            body {
+                background: none;
+                padding: 0;
+                display: block;
+            }
+            .resume-container, .cover-letter-container {
+                width: 100%;
+                max-width: 100%;
+                box-shadow: none;
+                margin: 0;
+            }
+            /* 2단 레이아웃 강제 고정 (이력서 안에서만 적용 - 자기소개서에는 영향 없음) */
+            .resume-container {
+                display: flex !important;
+                flex-direction: row !important;
+            }
+            .resume-container .sidebar {
+                width: 30% !important;
+                border-right: 1px solid #e0e0e0 !important;
+                border-bottom: none !important;
+            }
+            .resume-container .main-content {
+                width: 70% !important;
+            }
+            /* 이력서는 1페이지에, 자기소개서는 다음 페이지부터 인쇄 */
+            .resume-container {
+                page-break-after: always;
+            }
+
+            /* 여백/폰트 축소 (이력서 영역 한정) */
+            .resume-container .sidebar { padding: 15px 10px; }
+            .resume-container .main-content { padding: 15px 20px; }
+            .profile-img-container { width: 100px; height: 100px; margin-bottom: 15px; }
+            .profile-name { margin-bottom: 20px; }
+            .profile-name .last-name { font-size: 28px; }
+            .sidebar-section { margin-bottom: 16px; }
+            .sidebar-section-title { margin-bottom: 8px; padding-bottom: 3px; }
+            .info-group { margin-bottom: 8px; }
+
+            .main-section { margin-bottom: 16px; }
+            .main-section-title { margin-bottom: 10px; padding-bottom: 4px; font-size: 16px; }
+            .timeline-item { margin-bottom: 10px; }
+            .timeline-content { padding-bottom: 2px; }
+            .details { line-height: 1.4; }
+            .cert-row { margin-bottom: 4px; }
+
+            /* 항목이 페이지 경계에서 잘리지 않도록 */
+            .sidebar-section, .main-section, .timeline-item, .cert-group {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="resume-container">
+    <div class="sidebar">
+        <div class="profile-img-container"><img src="./image/profile.jpg" alt="프로필 사진"></div>
+        <div class="profile-name">
+            <div class="last-name">이인환</div>
+            <div class="first-name">LEE IN-HWAN</div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><span>///</span> Target Position</div>
+            <div class="info-group"><div class="info-label"> &nbsp; 공무 및 시설관리</div></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><span>///</span> About Me</div>
+            <div class="info-group"><div class="info-label">Birth</div><div class="info-value">1982. 05. 04 (만 44세)</div></div>
+            <div class="info-group"><div class="info-label">Phone</div><div class="info-value">010-2502-9532</div></div>
+            <div class="info-group"><div class="info-label">Email</div><div class="info-value">yoogane_kmu@naver.com</div></div>
+            <div class="info-group"><div class="info-label">Address</div><div class="info-value">대구광역시 앞산순환로 49안길 43</div></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><span>///</span> 병역</div>
+            <div class="info-group"><div class="info-label" style="font-weight: normal; color: #444;">2002. 10 ~ 2005. 03</div><div class="info-value" style="color: #666; margin-top: 2px;">공군 병장 만기 제대</div></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><span>///</span> 포트폴리오</div>
+            <div class="info-value" style="font-size: 11px; color: #5c5b5b; word-break: break-all;">
+                <a href="./portfolio/portfolio.html">https://muz.so/이인환0504</a>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <!-- 원본 이력서 상세 내용 그대로 복원 -->
+        <div class="main-section">
+            <div class="main-section-title"><span>///</span> Education - 학력사항</div>
+            <div class="timeline-item">
+                <div class="timeline-date">1998.03-2001.02</div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header"><span class="institution-name">성광고등학교</span></div>
+                    <div class="details">인문계 고등학교 / 대구</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2001.03-2009.02</div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header"><span class="institution-name">동국대학교</span><span class="score">3.83 / 4.5</span></div>
+                    <div class="details">컴퓨터공학 전공 / 경주</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-section">
+            <div class="main-section-title"><span>///</span> Training - 교육사항</div>
+            <div class="timeline-item">
+                <div class="timeline-date">2026.05.26-2026.08.04</div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header"><span class="institution-name">스마트팩토리 기계설비유지관리자</span></div>
+                    <div class="details">한국폴리텍대학 남대구캠퍼스 <br> 설비보전기능사 필기합격</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2025.11.10-2026.05.11</div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header"><span class="institution-name">전기실무 교육</span></div>
+                    <div class="details">영남기술직업전문학교 <br> 전기기능사 취득, 전기산업기사 필기합격</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-section">
+            <div class="main-section-title"><span>///</span> 자격증</div>
+            <div class="cert-group" style="margin-top: 20px;">
+                <div class="cert-row"><div class="cert-date">2026.04.10</div><span class="institution-name">전기기능사</span></div>
+                <div class="cert-row"><div class="cert-date">2026.05.24</div><div class="cert-name"><span class="institution-name">전기산업기사 </span><div class="details">(필기합격)</div></div></div>
+                <div class="cert-row"><div class="cert-date">2026.06.29</div><div class="cert-name"><span class="institution-name">설비보전기능사</span><div class="details">(필기합격)</div></div></div>
+                <div class="cert-row"><div class="cert-date">2008.08.18</div><span class="institution-name">정보처리기사</span></div>
+                <div class="cert-row"><div class="cert-date">2024.12.13</div><span class="institution-name">SQL 개발자 (SQLD)</span></div>
+                <div class="cert-row"><div class="cert-date">2009.03.</div><span class="institution-name">1종 보통운전면허</span></div>
+            </div>
+        </div>
+
+        <div class="main-section" style="margin-bottom: 0;">
+            <div class="main-section-title"><span>///</span> Experience - 경력</div>
+            <div class="timeline-item">
+                <div class="timeline-date">2018.11-2025.08<div class="position">팀장</div></div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header"><span class="institution-name">에스엔 소프트(구. 소프트웨어놀이터)</span></div>
+                    <div class="details">. 컴퓨터 프로그래밍 강의</div>
+                    <div class="details">  &nbsp;&nbsp;(파이썬, 자바, 아두이노, C언어, SQL, 데이터베이스)</div>
+                    <div class="details">. 코딩 교육 콘텐츠 개발</div>
+                    <div class="details">. 공모전 지도</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2017.12-2018.10<div class="position">팀원</div></div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content"><div class="timeline-header"><span class="institution-name">소프트웨어놀이터</span></div><div class="details">초, 중, 고등학생 코딩 교육.</div></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2010.11-2017.06<div class="position">점장</div></div>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content"><div class="timeline-header"><span class="institution-name">외식업 프렌차이즈(유가네 닭갈비)</span></div><div class="details">. 매장 관리 및 운영</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 자기소개서 영역 -->
+<div class="cover-letter-container">
+    <div class="main-content" style="width: 100%;">
+        <div class="main-section-title"><span>///</span> 자기소개서</div>
+
+        <div class="intro-text">
+            <div class="intro-sub-title">1. 성장과정</div>
+            <p><b>[후드 청소부터 설비 예방 보전까지]</b></p>
+            
+            <p>고등학교 3학년 수능을 마친 후, 2001년 1월 '유가네 닭갈비'라는 프랜차이즈 음식점에서 개업 멤버로서 첫 아르바이트를 시작했습니다. 대학에 입학한 후에도 주말이나 방학, 그리고 군 복무를 마치고 복학 전 휴학 기간에도 꾸준히 일했습니다.</p>
+            <p>양산에 있는 공장에서 닭고기 정육, 양념 등 가공되지 않은 식자재를 받던 시절부터 조리만 해서 판매할 수 있는 완제품 형태의 식자재들을 받아서 운영할 때까지, 한 곳에서 오래 일했습니다. 그러다 보니 자연스럽게 위생적인 식품 관리, 유통기한을 고려한 선입선출과 식자재 발주 등 매장 관리 전반을 경험할 수 있었습니다.</p>
+            <p>특히 기름때가 많이 낄 수밖에 없는 후드는 매일 청소하고 점검했으며, 테이블마다 설치된 가스레인지도 사용 빈도가 높았던 만큼 일정 주기로 점검하고 관리해 오래 사용할 수 있도록 신경 썼습니다.</p>
+            <p>이러한 경험을 통해 정해진 절차를 꾸준히 지키고, 눈에 잘 띄지 않는 부분도 놓치지 않고 미리 점검하는 습관을 몸으로 익혔습니다. 이 습관은 시간이 지나 다른 일을 하면서도 계속 남아 있었고, 지금 새롭게 준비하는 설비 유지보수 일에도 자연스럽게 이어지고 있습니다.</p>
+            
+            
+            <div class="intro-sub-title">2. 경력 및 교육사항</div>
+            <p><b>[7년의 교육 현장에서 공장 자동화 현장으로]</b></p>
+            
+            <p>코딩 교육 콘텐츠 개발 회사에서 약 7년간 근무하며, 오전에는 학교 및 공공기관에서, 오후에는 사내 교습소에서 C언어, 파이썬, SQL, 아두이노 등을 교육했습니다. 이 과정에서 지도한 학생들이 전국 단위 공모전에서 중등부 대상, 초등부 동상 등을 수상하는 성과도 있었습니다.</p>
+            <p>2025년 8월, 회사경영 악화로 권고사직을 하게 되었습니다. 이후 진로를 고민하던 중, 대학에서 컴퓨터공학을 전공하고 C언어와 아두이노 등을 교육했던 경험이 제어 로직을 사용하는 PLC나 공장 자동화 시스템을 이해하는 데 큰 강점이 될 수 있다는 확신이 들었습니다. 소프트웨어로 익힌 제어 흐름에 대한 이해를 바탕으로, 현장의 자동화 설비를 빠르게 배우고 적응할 수 있다고 판단하여 공장 자동화 분야로 방향을 전환하기로 결심했습니다.</p>
+            <p>하지만 이 분야에서 전문성을 갖추려면 소프트웨어 능력뿐 아니라 전기 계통 지식도 필요하다고 생각했습니다.그래서 퇴사 후 2025년 11월 10일부터 2026년 5월 11일까지 영남기술직업전문학교에서 6개월간 전기수업을 받았고, 전기기능사를 취득하고 전기산업기사 필기시험에 합격했습니다.</p>
+            <p>이후에는 실제 현장에서 기계를 직접 다루는 실습 경험이 필요하다고 판단했습니다. 그래서 2026년 5월 26일부터 현재까지 한국폴리텍 남대구 캠퍼스에서 PLC, 전기기초, 유공압 등 현장 중심의 스마트팩토리 기계설비 유지관리 교육을 받고 있으며, 이 과정에서 설비보전기능사 필기시험에 합격했습니다.</p>
+            <p>오랫동안 다뤄온 프로그래밍에 비하면 전기와 기계 분야는 이제 막 실무를 배워가는 단계입니다. 하지만 C언어, 파이썬, 아두이노 등을 통해 쌓은 제어 로직에 대한 이해가 있기에, 설비가 움직이는 원리를 빠르게 파악하고 업무에 조기 적응할 수 있다고 자신합니다. 그동안 쌓아온 교육 현장의 경험과 한국폴리텍에서 배운 기계 실습 내용을 바탕으로, 시설유지관리 공무 직무에서 현장의 기계·자동화 설비를 꼼꼼하게 관리하는 사원이 되겠습니다.</p>
+
+            
+
+            <div class="intro-sub-title">3. 성격의 장단점</div>
+            <p><b>[1시간 전 도착 원칙]</b></p>
+            
+            <p>저의 가장 큰 장점은 ‘철저한 준비성과 성실함’입니다.</p>
+            <p>7년간 한 직장에서 근무하며 강사로서 외부강의를 나갈 때, 생소한 환경에서도 완벽한 수업을 제공하기 위해 항상 교육 시작 1시간 전 도착을 원칙으로 삼았습니다. 단순히 시간 약속을 지키는 것을 넘어, 현장의 PC 환경과 소프트웨어 작동 여부를 미리 점검하며 발생할 수 있는 변수를 사전에 차단했습니다. 이러한 습관은 작은 결함이 생산 차질로 이어질 수 있는 생산설비 유지보수 업무에서 빛을 발할 것입니다.</p>
+            <p>단점은 새로운 프로젝트를 시작하거나 잘 해결되지 않는 문제가 있으면 퇴근 후에도 계속 생각이 나서 고민하게 되는 것입니다. </p>
+            <p>강사 시절 새로운 교육 콘텐츠 개발이나 공모전을 준비할 때도 막히는 부분이 있으면 퇴근 후에도 문제를 해결하기 위해 코드를 작성해서 테스트를 했습니다. 이러한 성향 때문에 피로감을 주기도 했지만, 전국 대회 공모전(한국코드페어)에 중등부 대상, 초등부 동상을 이끌어내는 성과를 이루기도 했습니다.</p>
+        
+            
+            <div class="intro-sub-title">4. 입사 후 포부</div>
+            
+            <p>입사 후에는 설비보전기능사, 전기기능사 등 그동안 쌓아온 자격과 실습 경험을 바탕으로, 현장의 기계·전기 설비를 빠르게 익히고 스스로 점검할 수 있는 사원이 되겠습니다. 
+               프로그래밍을 통해 익힌 제어 논리에 대한 이해를 살려 자동화 설비의 작동 원리를 남들보다 빠르게 파악하겠습니다.
+               나아가 5년, 10년 뒤에는 회사의 생산 설비를 가장 잘 아는 시설관리 전문가로 성장하겠습니다.</p>
+            
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
